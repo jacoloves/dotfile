@@ -125,7 +125,7 @@ let g:timestamp_save_path = "C:\\Users\\s.tanaka\\work\\memo"
 " Ctrl+sで保存できるようにする。
 noremap <c-s> :w<cr>
 " Ctrl+qで保存/閉じることができるようにする。
-noremap <c-q> :q<cr>
+noremap <c-w><c-q> :q<cr>
 " Ctrl+aで次tab移動
 nmap <c-a> :tabn<cr> 
 
