@@ -1,7 +1,6 @@
 " シンタックスハイライトON
 syntax enable
 syntax on
-set t_Co=256
 " 行番号を表示
 set number
 " 自動インデント
@@ -47,9 +46,6 @@ if has('vim_starting')
  " 置換モード時に非点滅の下線タイプのカーソル
  let &t_SR .= "\e[4 q"
 endif
-
-set t_AB=^[[48;5;%dm
-set t_AF=^[[38;5;%dm
 
 """"""""" vundle vim """""""""
 set nocompatible              " be iMproved, required
@@ -116,6 +112,9 @@ filetype plugin indent on    " required
 nnoremap <C-n> :NERDTreeToggle<CR>
 
 set termguicolors
+let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
+let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
+set background=dark
 colorscheme iceberg
 " cd C:\Users\s.tanaka\tana\lab 
 " timestampmemoの保存先
@@ -125,7 +124,7 @@ let g:timestamp_save_path = "C:\\Users\\s.tanaka\\work\\memo"
 " Ctrl+sで保存できるようにする。
 noremap <c-s> :w<cr>
 " Ctrl+qで保存/閉じることができるようにする。
-noremap <c-w><c-q> :q<cr>
+noremap <c-x> :q<cr>
 " Ctrl+aで次tab移動
 nmap <c-a> :tabn<cr> 
 
