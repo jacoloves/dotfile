@@ -36,7 +36,8 @@ colors
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-alias cu='cd /mnt/c/Users/81807/'
+alias dice='~/tmp/lab/go_tool/dice_korokoro/dice'
+alias ide='~/tmp/dotfile/.scripts/ide_setting.sh'
 
 # Fill in the candidates
 zstyle ':completion:*' menu select
@@ -90,3 +91,7 @@ bindkey "^g^f" git_clean_fdx
 export PULSE_SERVER=tcp:127.0.0.1
 
 # End of lines added by compinstall
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
