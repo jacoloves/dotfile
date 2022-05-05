@@ -29,8 +29,8 @@ inoremap { {}<LEFT>
 inoremap ( ()<LEFT>
 inoremap [ []<LEFT>
 " "や'を補完する
-" inoremap " ""<LEFT>
-" inoremap ' ''<LEFT>
+inoremap " ""<LEFT>
+inoremap ' ''<LEFT>
 
 hi Comment ctermfg=gray
 
@@ -137,3 +137,19 @@ let g:go_fmt_command = "goimports"
 
 " changelog save path
 let g:changelog_save_path = "C:\\Users\\s.tanaka\\tana\\test_dir\\changelog"
+
+if executable('typescript-language-server')
+    augroup LspTypeScript
+        au!
+        autocmd User lsp_setup call lsp#register_server({
+            \ 'name': 'typescript-language-server',
+            \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+            \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
+            \ 'whitelist': ['typescript'],
+            \ })
+        autocmd FileType typescript setlocal omnifunc=lsp#complete
+    augroup END :echomsg "vim-lsp with `typescript-language-server' enabled"
+else
+    :echomsg "vim-lsp for typescript unavailable"
+endif
+
