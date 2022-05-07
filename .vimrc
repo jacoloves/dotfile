@@ -23,7 +23,7 @@ set hidden
 set nobackup
 set nowritebackup
 set conceallevel=0
-set clipboard+=unnamedplus,unnamed
+set clipboard=unnamedplus
 " カッコを補完する
 inoremap { {}<LEFT>
 inoremap ( ()<LEFT>
@@ -136,7 +136,11 @@ nnoremap <c-k> :b<cr>
 let g:go_fmt_command = "goimports"
 
 " changelog save path
-let g:changelog_save_path = "C:\\Users\\s.tanaka\\tana\\test_dir\\changelog"
+let g:changelog_save_path = "~/tmp/test_dir/changelog"
+" changelog user name
+let g:user_full_name = "Shotaro Tanaka"
+" changelog user mail address
+let g:user_mail_address = "5511068t@gmail.com"
 
 if executable('typescript-language-server')
     augroup LspTypeScript
