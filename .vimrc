@@ -94,6 +94,7 @@ Plugin 'jacoloves/timestampMemo.vim'
 Plugin 'LeafCage/vimhelpgenerator'
 Plugin 'prabirshrestha/asyncomplete.vim'
 Plugin 'prabirshrestha/asyncomplete-lsp.vim'
+Plugin 'pangloss/vim-javascript'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -157,3 +158,5 @@ else
     :echomsg "vim-lsp for typescript unavailable"
 endif
 
+" vim-javascript setting
+let g:javascript_plugin_flow = 1
