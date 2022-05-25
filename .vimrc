@@ -143,6 +143,7 @@ let g:user_full_name = "Shotaro Tanaka"
 " changelog user mail address
 let g:user_mail_address = "5511068t@gmail.com"
 
+" typescript
 if executable('typescript-language-server')
     augroup LspTypeScript
         au!
@@ -160,3 +161,12 @@ endif
 
 " vim-javascript setting
 let g:javascript_plugin_flow = 1
+
+" clangd
+if executable('clangd')
+    au User lsp_setup call lsp#register_server({
+                \ 'name': 'clangd',
+                \ 'cmd': {server_info->['clangd', '-background-index']},
+                \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+                \ })
+endif
