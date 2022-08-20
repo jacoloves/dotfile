@@ -24,13 +24,15 @@ set nobackup
 set nowritebackup
 set conceallevel=0
 set clipboard+=unnamedplus,unnamed
+set fileformats=unix,dos,mac
+set relativenumber
 " カッコを補完する
 inoremap { {}<LEFT>
 inoremap ( ()<LEFT>
 inoremap [ []<LEFT>
 " "や'を補完する
-" inoremap " ""<LEFT>
-" inoremap ' ''<LEFT>
+inoremap " ""<LEFT>
+inoremap ' ''<LEFT>
 
 hi Comment ctermfg=gray
 
@@ -96,6 +98,7 @@ Plugin 'prabirshrestha/vim-lsp'
 Plugin 'mattn/vim-lsp-settings'
 Plugin 'prabirshrestha/asyncomplete.vim'
 Plugin 'prabirshrestha/asyncomplete-lsp.vim'
+Plugin 'koron/nyancat-vim'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
