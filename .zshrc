@@ -90,6 +90,8 @@ bindkey "^g^f" git_clean_fdx
 
 export PULSE_SERVER=tcp:127.0.0.1
 
+setopt nonomatch
+
 # End of lines added by compinstall
 
 export NVM_DIR="$HOME/.nvm"
