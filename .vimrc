@@ -95,6 +95,8 @@ Plugin 'LeafCage/vimhelpgenerator'
 Plugin 'prabirshrestha/asyncomplete.vim'
 Plugin 'prabirshrestha/asyncomplete-lsp.vim'
 Plugin 'pangloss/vim-javascript'
+" vim-Prisma
+Plugin 'pantharshit00/vim-prisma'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
