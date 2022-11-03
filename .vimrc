@@ -97,6 +97,8 @@ Plugin 'prabirshrestha/asyncomplete-lsp.vim'
 Plugin 'pangloss/vim-javascript'
 " vim-Prisma
 Plugin 'pantharshit00/vim-prisma'
+" vim-Rust
+Plugin 'rust-lang/rust.vim'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -172,3 +174,6 @@ if executable('clangd')
                 \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
                 \ })
 endif
+
+" rustfmt autosave
+let g:rustfmt_autosave = 1
