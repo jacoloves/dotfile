@@ -10,8 +10,11 @@ set smartindent
 set expandtab
 set encoding=utf-8
 set fileencodings=utf-8
+
 set tabstop=4
 set shiftwidth=4
+set softtabstop=4
+
 "set cursorline
 set number
 set showmode
@@ -24,6 +27,9 @@ set nobackup
 set nowritebackup
 set conceallevel=0
 set clipboard=unnamedplus
+
+set list
+set listchars=tab:>-,extends:<,trail:-
 " カッコを補完する
 inoremap { {}<LEFT>
 inoremap ( ()<LEFT>
@@ -120,7 +126,8 @@ set termguicolors
 let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
 let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
 set background=dark
-colorscheme iceberg
+" colorschema
+colorscheme jellybeans 
 " cd C:\Users\s.tanaka\tana\lab 
 " timestampmemoの保存先
 let g:timestamp_save_path = "C:\\Users\\s.tanaka\\work\\memo"
@@ -177,3 +184,5 @@ endif
 
 " rustfmt autosave
 let g:rustfmt_autosave = 1
+
+au FileType go set tabstop=2 softtabstop=2 shiftwidth=2
