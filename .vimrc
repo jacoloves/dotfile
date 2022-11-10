@@ -105,6 +105,8 @@ Plugin 'pangloss/vim-javascript'
 Plugin 'pantharshit00/vim-prisma'
 " vim-Rust
 Plugin 'rust-lang/rust.vim'
+" phpactor
+Plugin 'phpactor/phpactor'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -186,3 +188,4 @@ endif
 let g:rustfmt_autosave = 1
 
 au FileType go set tabstop=2 softtabstop=2 shiftwidth=2
+au FileType php set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
