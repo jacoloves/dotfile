@@ -26,6 +26,9 @@ set conceallevel=0
 set clipboard+=unnamedplus,unnamed
 set fileformats=unix,dos,mac
 set relativenumber
+
+set list
+set listchars=tab:>-,extends:<,trail:-
 " カッコを補完する
 inoremap { {}<LEFT>
 inoremap ( ()<LEFT>
@@ -99,6 +102,13 @@ Plugin 'mattn/vim-lsp-settings'
 Plugin 'prabirshrestha/asyncomplete.vim'
 Plugin 'prabirshrestha/asyncomplete-lsp.vim'
 Plugin 'koron/nyancat-vim'
+Plugin 'pangloss/vim-javascript'
+" vim-Prisma
+Plugin 'pantharshit00/vim-prisma'
+" vim-Rust
+Plugin 'rust-lang/rust.vim'
+" phpactor
+Plugin 'phpactor/phpactor'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -117,7 +127,8 @@ filetype plugin indent on    " required
 nnoremap <C-n> :NERDTreeToggle<CR>
 
 set termguicolors
-colorscheme iceberg
+" colorschema
+colorscheme jellybeans 
 " cd C:\Users\s.tanaka\tana\lab 
 " timestampmemoの保存先
 let g:timestamp_save_path = "C:\\Users\\s.tanaka\\work\\memo"
@@ -139,3 +150,25 @@ let g:go_fmt_command = "goimports"
 
 " changelog save path
 let g:changelog_save_path = "C:\\Users\\s.tanaka\\tana\\test_dir\\changelog"
+
+" vim-javascript setting
+let g:javascript_plugin_flow = 1
+
+" clangd
+if executable('clangd')
+    au User lsp_setup call lsp#register_server({
+                \ 'name': 'clangd',
+                \ 'cmd': {server_info->['clangd', '-background-index']},
+                \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+                \ })
+endif
+
+
+" rustfmt autosave
+let g:rustfmt_autosave = 1
+
+au FileType go  set tabstop=2 softtabstop=2 shiftwidth=2
+au FileType js  set tabstop=2 softtabstop=2 shiftwidth=2
+au FileType ts  set tabstop=2 softtabstop=2 shiftwidth=2
+au FileType tsx set tabstop=2 softtabstop=2 shiftwidth=2
+au FileType php set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab

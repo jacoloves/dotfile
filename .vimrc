@@ -187,5 +187,8 @@ endif
 " rustfmt autosave
 let g:rustfmt_autosave = 1
 
-au FileType go set tabstop=2 softtabstop=2 shiftwidth=2
+au FileType go  set tabstop=2 softtabstop=2 shiftwidth=2
 au FileType php set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+au FileType js  set tabstop=2 softtabstop=2 shiftwidth=2
+au FileType ts  set tabstop=2 softtabstop=2 shiftwidth=2
+au FileType tsx set tabstop=2 softtabstop=2 shiftwidth=2
