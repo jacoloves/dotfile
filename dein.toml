@@ -20,15 +20,20 @@ repo = 'vim-airline/vim-airline-themes'
 repo = 'preservim/nerdtree'
 
 [[plugins]]
-repo = "fatih/vim-go"
-
-[[plugins]]
 repo = "neoclide/coc.nvim"
 merge = 0
-rev = "release"
+
+[[plugins]]
+repo = "fatih/vim-go"
 
 [[plugins]]
 repo = "rust-lang/rust.vim"
 
 [[plugins]]
 repo = "cocopon/iceberg.vim"
+
+[[plugins]]
+repo = "jacoloves/timestampMemo.vim"
+
+[[plugins]]
+repo = "nanotech/jellybeans.vim"
