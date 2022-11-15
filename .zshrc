@@ -36,8 +36,8 @@ colors
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-alias dice='~/tmp/lab/go_tool/dice_korokoro/dice'
-alias ide='~/tmp/dotfile/.scripts/ide_setting.sh'
+alias dice='$HOME/tmp/lab/go_tool/dice_korokoro/dice'
+alias ide='$HOME/tmp/dotfile/.scripts/ide_setting.sh'
 
 # Fill in the candidates
 zstyle ':completion:*' menu select
