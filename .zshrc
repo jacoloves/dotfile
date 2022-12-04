@@ -1,5 +1,6 @@
 # PATH
-export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
 export XDG_BASE_HOME='~/.config'
 . "$HOME/.cargo/env"
 
