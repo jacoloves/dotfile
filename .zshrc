@@ -48,8 +48,8 @@ zstyle ':completion:*' menu select
 setopt correct
 
 # Setting Prompt
-PROMPT='%F{cyan}%/%f %F{yellow}%D%f %F{magenta}%*%f
-%F{green} (つ・ω・)つ%f'
+PROMPT=''$'\U256d'' %F{cyan}%/%f %F{yellow}%D%f %F{magenta}%*%f
+'$'\U2570'' %F{green} (つ・ω・)つ%f'
 RPROMPT='[%F{green}%n%f]'
 
 # auto cd
