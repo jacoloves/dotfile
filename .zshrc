@@ -39,6 +39,7 @@ alias la='ls -A'
 alias l='ls -CF'
 alias dice='$HOME/tmp/lab/go_tool/dice_korokoro/dice'
 alias ide='$HOME/tmp/dotfile/.scripts/ide_setting.sh'
+alias clion='sh $HOME/Documents/clion-2022.3/bin/clion.sh'
 
 # Fill in the candidates
 zstyle ':completion:*' menu select
