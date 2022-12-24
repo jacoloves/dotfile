@@ -107,6 +107,9 @@ Plugin 'pantharshit00/vim-prisma'
 Plugin 'rust-lang/rust.vim'
 " phpactor
 Plugin 'phpactor/phpactor'
+" vim-clang-format
+Plugin 'kana/vim-operator-user'
+Plugin 'rhysd/vim-clang-format'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -188,7 +191,18 @@ endif
 let g:rustfmt_autosave = 1
 
 au FileType go  set tabstop=2 softtabstop=2 shiftwidth=2
-au FileType php set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 au FileType js  set tabstop=2 softtabstop=2 shiftwidth=2
 au FileType ts  set tabstop=2 softtabstop=2 shiftwidth=2
 au FileType tsx set tabstop=2 softtabstop=2 shiftwidth=2
+au FileType php set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+
+" clang-format auto
+autocmd FileType c,cc,cpp,h ClangFormatAutoEnable
+
+" clang-format setting detail
+let g:clang_format#style_options = {
+            \ "AccessModifierOffset" : -4,
+            \ "AllowShortIfStatementsOnASingleLine" : "true",
+            \ "AlwaysBreakTemplateDeclarations" : "true",
+            \ "Standard" : "C++11",
+            \ "BreakBeforeBraces" : "Stroustrup"}
