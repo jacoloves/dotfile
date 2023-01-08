@@ -27,6 +27,7 @@ set nobackup
 set nowritebackup
 set conceallevel=0
 set clipboard=unnamedplus
+set relativenumber
 
 set list
 set listchars=tab:>-,extends:<,trail:-
