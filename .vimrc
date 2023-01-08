@@ -150,6 +150,14 @@ nmap <c-a> :tabn<cr>
 nnoremap <c-j> :bprev<cr>
 nnoremap <c-k> :b<cr>
 
+" gvim terminal mode key mapping
+if has("gui_running")
+    nnoremap <c-t> :tab terminal<cr>
+    tnoremap <c-v> <c-w>"*
+    tnoremap <c-a> <c-w>:tabn<cr>
+endif
+
+
 " Golang Auto import
 let g:go_fmt_command = "goimports"
 
@@ -207,3 +215,4 @@ let g:clang_format#style_options = {
             \ "AlwaysBreakTemplateDeclarations" : "true",
             \ "Standard" : "C++11",
             \ "BreakBeforeBraces" : "Stroustrup"}
+
