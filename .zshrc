@@ -40,6 +40,7 @@ alias l='ls -CF'
 alias dice='$HOME/tmp/lab/go_tool/dice_korokoro/dice'
 alias ide='$HOME/tmp/dotfile/.scripts/ide_setting.sh'
 alias clion='sh $HOME/Documents/clion-2022.3/bin/clion.sh'
+alias abcp='$HOME/tmp/release/2023/atcoder_template_copy/abcp.sh'
 
 # Fill in the candidates
 zstyle ':completion:*' menu select
@@ -48,8 +49,8 @@ zstyle ':completion:*' menu select
 setopt correct
 
 # Setting Prompt
-PROMPT=''$'\U256d'' %F{cyan}%/%f %F{yellow}%D%f %F{magenta}%*%f
-'$'\U2570'' %F{green} (つ・ω・)つ%f'
+PROMPT='%F{cyan}%/%f %F{yellow}%D%f %F{magenta}%*%f
+%F{green} (つ・ω・)つ%f'
 RPROMPT='[%F{green}%n%f]'
 
 # auto cd
