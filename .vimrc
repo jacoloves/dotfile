@@ -93,6 +93,8 @@ Plugin 'vim-airline/vim-airline'
 " https://github.com/mattn/vim-lsp-settings
 Plugin 'prabirshrestha/vim-lsp'
 Plugin 'mattn/vim-lsp-settings'
+Plugin 'hrsh7th/vim-vsnip'
+Plugin 'hrsh7th/vim-vsnip-integ'
 " https://github.com/fatih/vim-go
 Plugin 'fatih/vim-go'
 Plugin 'scrooloose/nerdtree'
@@ -216,3 +218,18 @@ let g:clang_format#style_options = {
             \ "Standard" : "C++11",
             \ "BreakBeforeBraces" : "Stroustrup"}
 
+" golang language server settings
+function! s:on_lsp_buffer_enabled() abort
+    if &buftype ==# 'nofile' || &filetype =~# '^\(quickrun\)' || getcmdwintype() ==# ':'
+        return
+    endif
+    setlocal omnifunc=lsp#complete
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> <f2> <plug>(lsp-rename)
+    nmap <buffer> <c-k> <plug>(lsp-hover)
+endfunction
+
+augroup vimrc_lsp_install
+    autocmd!
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
