@@ -42,6 +42,7 @@ alias dice='$HOME/tmp/lab/go_tool/dice_korokoro/dice'
 alias ide='$HOME/tmp/dotfile/.scripts/ide_setting.sh'
 alias clion='sh $HOME/Documents/clion-2022.3/bin/clion.sh'
 alias abcp='$HOME/tmp/release/2023/atcoder_template_copy/abcp.sh'
+alias goroot='cd $HOME/go/src/github.com/jacoloves'
 
 # Fill in the candidates
 zstyle ':completion:*' menu select
