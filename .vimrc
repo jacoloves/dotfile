@@ -54,6 +54,10 @@ if has('vim_starting')
  let &t_SR .= "\e[4 q"
 endif
 
+if has('clipboard')
+    set clipboard=unnamed
+endif
+
 """"""""" vundle vim """""""""
 set nocompatible              " be iMproved, required
 filetype off                  " required
