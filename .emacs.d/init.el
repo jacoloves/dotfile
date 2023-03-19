@@ -261,6 +261,24 @@ Image types are symbols like `xbm' or `jpeg'."
 (load-theme 'modus-vivendi :no-confirm)
 (define-key global-map (kbd "<f5>") #'modus-themes-toggle)
 
+;; web-mode
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+
+;; js2-mode
+(use-package js2-mode
+  :ensure t
+  :mode("\\.js\\'" . js2-mode)
+  :init
+  (add-hook 'js2-mode-hook 'ac-js2-mode))
+
+;; ac-js2
+(use-package ac-js2
+  :ensure t)
+
+;; phpmode
+(use-package php-mode :ensure t)
 
 ;; Local Variables:
 ;; indent-tabs-mode: nil
@@ -272,7 +290,8 @@ Image types are symbols like `xbm' or `jpeg'."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(modus-themes blackout el-get hydra leaf-keywords leaf)))
+ '(package-selected-packages
+   '(php-mode use-package indium modus-themes blackout el-get hydra leaf-keywords leaf)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
