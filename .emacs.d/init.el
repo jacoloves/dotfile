@@ -274,11 +274,30 @@ Image types are symbols like `xbm' or `jpeg'."
   (add-hook 'js2-mode-hook 'ac-js2-mode))
 
 ;; ac-js2
-(use-package ac-js2
-  :ensure t)
+(use-package ac-js2  :ensure t)
 
 ;; phpmode
-(use-package php-mode :ensure t)
+(defun my-php-mode-setup()
+  "My PHP-mode hook."
+  (subword-mode 1)
+  (setq show-trailing-whitespace t)
+
+  (setq-local page-delimiter "\\_<\\(class\\|function\\|namespace\\)\\_>.+$")
+
+  (require 'flycheck-phpstan)
+  (flycheck-mode t)
+  (add-to-list 'flycheck-disabled-checkers 'php-phpmd)
+  (add-to-list 'flycheck-disabled-checkers 'php-phpcs))
+  
+(use-package php-mode
+             :hook ((php-mode . my-php-mode-setup)))
+
+;; tabs
+(setq-default indent-tabs-mode t)
+
+;; yank clipbord
+(cond (window-system
+       (setq x-select-enable-clipboard t)))
 
 ;; Local Variables:
 ;; indent-tabs-mode: nil
