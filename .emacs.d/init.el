@@ -277,20 +277,21 @@ Image types are symbols like `xbm' or `jpeg'."
 (use-package ac-js2  :ensure t)
 
 ;; phpmode
-(defun my-php-mode-setup()
-  "My PHP-mode hook."
-  (subword-mode 1)
-  (setq show-trailing-whitespace t)
-
+(defun my-php-mode-init ()
+  (setq-local show-trailing-whitespace t)
+  (setq-local ac-disable-faces '(font-lock-comment-face font-lock-string-face))
   (setq-local page-delimiter "\\_<\\(class\\|function\\|namespace\\)\\_>.+$")
 
-  (require 'flycheck-phpstan)
-  (flycheck-mode t)
-  (add-to-list 'flycheck-disabled-checkers 'php-phpmd)
-  (add-to-list 'flycheck-disabled-checkers 'php-phpcs))
-  
+  ;; If you feel phumped and phpcs annoying, invalidate them.
+  (when (boundp 'flycheck-disabled-checkers)
+    (add-to-list 'flycheck-disabled-checkers 'php-phpmd)
+    (add-to-list 'flycheck-disabled-checkers 'php-phpcs)))
+
+;;(add-hook 'php-mode-hook #'my-php-mode-init)
 (use-package php-mode
-             :hook ((php-mode . my-php-mode-setup)))
+  :ensure t
+  :mode(("\\.php\\'" . php-mode)))
+  
 
 ;; tabs
 (setq-default indent-tabs-mode t)
@@ -299,42 +300,33 @@ Image types are symbols like `xbm' or `jpeg'."
 (cond (window-system
        (setq x-select-enable-clipboard t)))
 
-;; go write
-(use-package lsp-mode)
-(use-package lsp-ui)
+;; Golang
+(defun lsp-go-install-save-hooks()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
 
-;; lsp-mode keybinds
-(defun lsp-mode-init()
-  (lsp)
-  (global-set-key (kbd "M-*") 'xref-pop-marker-stack)
-  (global-set-key (kbd "M-.") 'xref-find-definitions)
-  (global-set-key (kbd "M-/") 'xref-find-references))
+(use-package go-mode
+  :ensure t
+  :mode (("\\.go\\'" . go-mode))
+  :config
+  (setq gofmt-command "goimports")
+  :init
+  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+  (add-hook 'go-mode-hook #'(lambda()
+                              (yas-minor-mode 1)
+                              (lsp))))
 
-;; lsp-ui config
-(setq lsp-ui-doc-enable t)
-(setq lsp-ui-doc-header t)
-(setq lsp-ui-doc-include-signature t)
-(setq lsp-ui-doc-max-width 150)
-(setq lsp-ui-doc-max-height 30)
-(setq lsp-ui-peek-enable t)
-(add-hook 'lsp-mode-hook 'lsp-ui-mode)
+;; Language Server
+(use-package lsp-mode
+  :ensure t
+  :hook
+  (go-mode . lsp-deferred)
+;;  (php-mode . lsp-deferred)
+  :commands (lsp lsp-deferred))
 
-(with-eval-after-load 'go-mode
-  ;; autoo-complete
-  (require 'go-autocomplete)
-
-  ;; lsp
-  (add-hook 'go-mode-hook #'lsp)
-
-  ;; eldoc
-  (add-hook 'go-mode-hook 'go-eldoc-setup)
-
-  ;; gofmt
-  (add-hook 'before-save-hook 'gofmt-before-save)
-
-  ;; key bindings
-  (define-key go-mode-map (kbd "M-.") 'godef-jump)
-  (define-key go-mode-map (kbd "M-,") 'pop-tag-mark))
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
 
 ;; daracula themes
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
@@ -351,7 +343,7 @@ Image types are symbols like `xbm' or `jpeg'."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(dracula-theme lsp-mode lsp-ui go-autocomplete php-mode use-package indium modus-themes blackout el-get hydra leaf-keywords leaf)))
+   '(flymake-php flycheck-phpstan dracula-theme lsp-mode lsp-ui go-autocomplete php-mode use-package indium modus-themes blackout el-get hydra leaf-keywords leaf)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
