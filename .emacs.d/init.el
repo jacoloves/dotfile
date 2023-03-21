@@ -255,11 +255,11 @@ Image types are symbols like `xbm' or `jpeg'."
   (add-to-list 'company-backends 'company-c-headers))
 
 ;; modus themes
-(require-theme 'modus-themes)
-(setq modus-themes-italic-constructs t
-      modus-themes-bold-constructs nil)
-(load-theme 'modus-vivendi :no-confirm)
-(define-key global-map (kbd "<f5>") #'modus-themes-toggle)
+;;(require-theme 'modus-themes)
+;;(setq modus-themes-italic-constructs t
+;;      modus-themes-bold-constructs nil)
+;;(load-theme 'modus-vivendi :no-confirm)
+;;(define-key global-map (kbd "<f5>") #'modus-themes-toggle)
 
 ;; web-mode
 (require 'web-mode)
@@ -299,6 +299,47 @@ Image types are symbols like `xbm' or `jpeg'."
 (cond (window-system
        (setq x-select-enable-clipboard t)))
 
+;; go write
+(use-package lsp-mode)
+(use-package lsp-ui)
+
+;; lsp-mode keybinds
+(defun lsp-mode-init()
+  (lsp)
+  (global-set-key (kbd "M-*") 'xref-pop-marker-stack)
+  (global-set-key (kbd "M-.") 'xref-find-definitions)
+  (global-set-key (kbd "M-/") 'xref-find-references))
+
+;; lsp-ui config
+(setq lsp-ui-doc-enable t)
+(setq lsp-ui-doc-header t)
+(setq lsp-ui-doc-include-signature t)
+(setq lsp-ui-doc-max-width 150)
+(setq lsp-ui-doc-max-height 30)
+(setq lsp-ui-peek-enable t)
+(add-hook 'lsp-mode-hook 'lsp-ui-mode)
+
+(with-eval-after-load 'go-mode
+  ;; autoo-complete
+  (require 'go-autocomplete)
+
+  ;; lsp
+  (add-hook 'go-mode-hook #'lsp)
+
+  ;; eldoc
+  (add-hook 'go-mode-hook 'go-eldoc-setup)
+
+  ;; gofmt
+  (add-hook 'before-save-hook 'gofmt-before-save)
+
+  ;; key bindings
+  (define-key go-mode-map (kbd "M-.") 'godef-jump)
+  (define-key go-mode-map (kbd "M-,") 'pop-tag-mark))
+
+;; daracula themes
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+(load-theme 'dracula t)
+
 ;; Local Variables:
 ;; indent-tabs-mode: nil
 ;; End:
@@ -310,7 +351,7 @@ Image types are symbols like `xbm' or `jpeg'."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(php-mode use-package indium modus-themes blackout el-get hydra leaf-keywords leaf)))
+   '(dracula-theme lsp-mode lsp-ui go-autocomplete php-mode use-package indium modus-themes blackout el-get hydra leaf-keywords leaf)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
