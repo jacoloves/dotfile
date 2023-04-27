@@ -97,6 +97,7 @@ Plugin 'vim-airline/vim-airline'
 " https://github.com/mattn/vim-lsp-settings
 Plugin 'prabirshrestha/vim-lsp'
 Plugin 'mattn/vim-lsp-settings'
+Plugin 'mattn/vim-lsp-icons'
 Plugin 'hrsh7th/vim-vsnip'
 Plugin 'hrsh7th/vim-vsnip-integ'
 " https://github.com/fatih/vim-go
@@ -117,6 +118,10 @@ Plugin 'phpactor/phpactor'
 " vim-clang-format
 Plugin 'kana/vim-operator-user'
 Plugin 'rhysd/vim-clang-format'
+" dracula vim
+Plugin 'dracula/vim',{'name':'dracula'}
+" vim-devicons
+Plugin 'ryanoasis/vim-devicons'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -139,7 +144,7 @@ let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
 let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
 set background=dark
 " colorschema
-colorscheme jellybeans 
+colorscheme dracula
 " cd C:\Users\s.tanaka\tana\lab 
 " timestampmemoの保存先
 let g:timestamp_save_path = "C:\\Users\\s.tanaka\\work\\memo"
@@ -182,7 +187,7 @@ if executable('typescript-language-server')
             \ 'name': 'typescript-language-server',
             \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
             \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
-            \ 'whitelist': ['typescript'],
+            \ 'whitelist': ['typescript', 'typescript.tsx', 'javascript', 'javascript.jsx'],
             \ })
         autocmd FileType typescript setlocal omnifunc=lsp#complete
     augroup END :echomsg "vim-lsp with `typescript-language-server' enabled"
