@@ -1,3 +1,4 @@
+
 " シンタックスハイライトON
 syntax enable
 syntax on
@@ -210,11 +211,11 @@ endif
 " rustfmt autosave
 let g:rustfmt_autosave = 1
 
-au FileType go  set tabstop=2 softtabstop=2 shiftwidth=2
-au FileType js  set tabstop=2 softtabstop=2 shiftwidth=2
-au FileType ts  set tabstop=2 softtabstop=2 shiftwidth=2
-au FileType tsx set tabstop=2 softtabstop=2 shiftwidth=2
-au FileType php set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+au Filetype typescript,javascript setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+au Filetype typescriptreact setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+au Filetype php setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+
+au Filetype *.go  setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
 
 " clang-format auto
 autocmd FileType c,cc,cpp,h ClangFormatAutoEnable
