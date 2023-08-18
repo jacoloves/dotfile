@@ -1,5 +1,5 @@
-[[plugins]]
-repo = 'Shougo/dein.vim'
+#[[plugins]]
+#repo = 'Shougo/dein.vim'
 
 [[plugins]]
 repo = 'Shougo/deoplete.nvim'
@@ -37,3 +37,11 @@ repo = "jacoloves/timestampMemo.vim"
 
 [[plugins]]
 repo = "nanotech/jellybeans.vim"
+
+[[plugins]]
+repo = "dracula/vim"
+name = "dracula"
+
+[[plugins]]
+repo = "ryanoasis/vim-devicons"
+
