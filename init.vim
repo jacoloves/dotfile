@@ -1,3 +1,7 @@
+if &compatible
+    set nocompatible
+endif
+
 syntax on
 set t_Co=256
 
@@ -64,44 +68,23 @@ endif
 " well as sanely reset options when re-sourcing .vimrc
 set nocompatible
 
-" Set Dein base path (required)
-let s:dein_base = '/home/shooonng/.cache/dein'
+call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
+Plug 'tpope/vim-surround'
+Plug 'dracula/vim'
+Plug 'sheerun/vim-polyglot'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'mattn/vim-goimports'
+Plug 'github/copilot.vim'
+Plug 'tyru/open-browser.vim'
+Plug 'previm/previm'
+Plug 'plasticboy/vim-markdown'
+Plug 'scrooloose/nerdtree'
+Plug 'mattn/vim-lsp-icons'
+call plug#end()
 
-" Set Dein source path (required)
-let s:dein_src = '/home/shooonng/.cache/dein/repos/github.com/Shougo/dein.vim'
-
-" Set Dein runtime path (required)
-execute 'set runtimepath+=' . s:dein_src
-
-" Call Dein initialization (required)
-call dein#begin(s:dein_base)
-
-call dein#add(s:dein_src)
-
-" Your plugins go here:
-"call dein#add('Shougo/neosnippet.vim')
-"call dein#add('Shougo/neosnippet-snippets')
-call dein#load_toml('~/.config/nvim/dein.toml', {'lazy': 0})
-
-" Finish Dein initialization (required)
-call dein#end()
-
-" Attempt to determine the type of a file based on its name and possibly its
-" contents. Use this to allow intelligent auto-indenting for each filetype,
-" and for plugins that are filetype specific.
-if has('filetype')
-  filetype indent plugin on
-endif
-
-" Enable syntax highlighting
-if has('syntax')
-  syntax on
-endif
-
-" Uncomment if you want to install not-installed plugins on startup.
-if dein#check_install()
- call dein#install()
-endif
 
 " For conceal markers.
 if has('conceal')
@@ -112,7 +95,11 @@ endif
 map <C-n> :NERDTreeToggle<CR>
 
 " Golang Auto import
-let g:go_fmt_command = "goimports"
+" let g:go_fmt_command = "goimports"
+
+" goimports
+let g:goimports = 1
+let g:goimports_simplify = 1
 
 " rustfmt auto
 let g:rustfmt_autosave = 1
@@ -144,7 +131,7 @@ let g:rustfmt_autosave = 1
 au Filetype typescript,javascript setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
 au Filetype typescriptreact setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
 au Filetype php setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
-au Filetype *.go  setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+au Filetype go  setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+au Filetype hs setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
 
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 let g:copilot_filetyps = {'yaml': v:true}
