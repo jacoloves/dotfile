@@ -2,6 +2,16 @@ if &compatible
     set nocompatible
 endif
 
+let s:config_dir = expand($XDG_CONFIG_HOME . '/nvim')
+let s:cache_dir = expand($XDG_CACHE_HOME . '/nvim')
+
+let s:plug_dir = s:cache_dir . '/plugged'
+let s:autoload_dir = expand($XDG_DATA_HOME . '/nvim/site/autoload/plug.vim')
+
+if !filewritable(s:autoload_dir)
+    silent execute '!curl -fLo ' . $s:autoload_dir . ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+endif
+
 syntax on
 set t_Co=256
 
@@ -68,7 +78,7 @@ endif
 " well as sanely reset options when re-sourcing .vimrc
 set nocompatible
 
-call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
+call plug#begin(s:plug_dir)
 Plug 'tpope/vim-surround'
 Plug 'dracula/vim'
 Plug 'sheerun/vim-polyglot'

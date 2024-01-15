@@ -3,6 +3,8 @@ export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 export XDG_BASE_HOME='~/.config'
 export VIMPLUGIN='~/.vim/pack/plugins/start'
+export XDG_CACHE_HOME='~/.cache'
+export XDG_DATA_HOME='~/.local/share'
 . "$HOME/.cargo/env"
 
 # Lines configured by zsh-newuser-install
