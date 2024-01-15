@@ -1,4 +1,4 @@
-;;; init.el
+;; init.el
 ;; Author: Shotaro Tanaka <5511068t@gmail.com>
 
 ;; this enables this running method
@@ -31,10 +31,7 @@
     ;; initialize leaf-keywords.el
     (leaf-keywords-init)))
 
-;; Write a lot of setting here.
-
-(provide 'init)
-
+;; --- Write a lot of setting here. start ---
 ;; overriding image.el function image-type-available-p
 (defun image-type-available-p (type)
   "Return t if image type TYPE is available.
@@ -43,7 +40,6 @@ Image types are symbols like `xbm' or `jpeg'."
       nil
     (and (fboundp 'init-image-library)
          (init-image-library type))))
-
 ;; cus-start.c
 (leaf cus-start
   :doc "define customization properties of builtins"
@@ -136,16 +132,11 @@ Image types are symbols like `xbm' or `jpeg'."
             (delete-old-versions . t)))
 
 ;; startup
-(leaf files
-  :doc "file input and output commands for Emacs"
-  :tag "builtin"
-  :custom `((auto-save-timeout . 15)
-            (auto-save-interval . 60)
-            (auto-save-file-name-transforms . '((".*" ,(locate-user-emacs-file "backup/") t)))
-            (backup-directory-alist . '((".*" . ,(locate-user-emacs-file "backup"))
-                                        (,tramp-file-name-regexp . nil)))
-            (version-control . t)
-            (delete-old-versions . t)))
+(leaf startup
+  :doc "process Emacs shell arguments"
+  :tag "builtin" "internal"
+  :custom `((auto-save-list-file-prefix . ,(locate-user-emacs-file "backup/.sage-")))
+          
 
 ;; evy
 (leaf ivy
@@ -254,83 +245,116 @@ Image types are symbols like `xbm' or `jpeg'."
   :config
   (add-to-list 'company-backends 'company-c-headers))
 
-;; modus themes
-;;(require-theme 'modus-themes)
-;;(setq modus-themes-italic-constructs t
-;;      modus-themes-bold-constructs nil)
-;;(load-theme 'modus-vivendi :no-confirm)
-;;(define-key global-map (kbd "<f5>") #'modus-themes-toggle)
-
 ;; web-mode
-(require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+(leaf web-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode)))
 
 ;; js2-mode
-(use-package js2-mode
+(leaf js2-mode
   :ensure t
-  :mode("\\.js\\'" . js2-mode)
-  :init
-  (add-hook 'js2-mode-hook 'ac-js2-mode))
+  :mode ("\\.js\\'" . js2-mode)
+  :hook (js2-mode-hook . ac-js2-mode))
 
 ;; ac-js2
-(use-package ac-js2  :ensure t)
+(leaf ac-js2
+  :ensure t)
 
-;; phpmode
-(defun my-php-mode-init ()
-  (setq-local show-trailing-whitespace t)
-  (setq-local ac-disable-faces '(font-lock-comment-face font-lock-string-face))
-  (setq-local page-delimiter "\\_<\\(class\\|function\\|namespace\\)\\_>.+$")
-
-  ;; If you feel phumped and phpcs annoying, invalidate them.
-  (when (boundp 'flycheck-disabled-checkers)
-    (add-to-list 'flycheck-disabled-checkers 'php-phpmd)
-    (add-to-list 'flycheck-disabled-checkers 'php-phpcs)))
-
-;;(add-hook 'php-mode-hook #'my-php-mode-init)
-(use-package php-mode
+;; php-mode
+(leaf php-mode
   :ensure t
-  :mode(("\\.php\\'" . php-mode)))
-  
+  :mode ("\\.php\\'" . php-mode)
+  :hook (php-mode-hook . (lambda ()
+                           (setq-local show-trailing-whitespace t)
+                           (setq-local ac-disable-faces '(font-lock-comment-face font-lock-string-face))
+                           (setq-local page-delimiter "\\_<\\(class\\|function\\|namespace\\)\\_>.+$")
+                           (when (boundp 'flycheck-disabled-checkers)
+                             (add-to-list 'flycheck-disabled-checkers 'php-phpmd)
+                             (add-to-list 'flycheck-disabled-checkers 'php-phpcs))))
 
 ;; tabs
 (setq-default indent-tabs-mode t)
 
 ;; yank clipbord
-(cond (window-system
-       (setq x-select-enable-clipboard t)))
+(setq x-select-enable-clipboard t)
+;; darwin copy
+(setq sysname system-type)
+(if (eq sysname 'darwin)
+    (progn
+      (defun copy-from-osx()
+        (shell-command-to-string "reattach-to-user-namespace pbpaste"))
+      (defun paste-to-osx(text &optional push)
+        (let ((process-connection-type nil))
+          (let ((proc (start-process "pbcopy" "*Messages*" "reattach-to-user-namespace" "pbcopy")))
+            (process-send-string proc text)
+            (process-send-eof proc))))
+      (setq interprogram-cut-function 'paste-to-osx)
+      (setq interprogram-paste-function 'copy-from-osx)
+      )
+  (message "This platform is not mac"))
 
-;; Golang
-(defun lsp-go-install-save-hooks()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  (add-hook 'before-save-hook #'lsp-organize-imports t t))
-
-(use-package go-mode
-  :ensure t
-  :mode (("\\.go\\'" . go-mode))
+;; Electric Pair Mode
+(leaf electric-pair-mode
   :config
-  (setq gofmt-command "goimports")
-  :init
-  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
-  (add-hook 'go-mode-hook #'(lambda()
-                              (yas-minor-mode 1)
-                              (lsp))))
+  (electric-pair-mode 1))
 
-;; Language Server
-(use-package lsp-mode
+;; Common settings for LSP
+(leaf lsp-mode
   :ensure t
-  :hook
-  (go-mode . lsp-deferred)
-;;  (php-mode . lsp-deferred)
-  :commands (lsp lsp-deferred))
+  :commands (lsp lsp-deferred)
+  :hook ((go-mode-hook . lsp-deferred)
+         (rust-mode-hook . lsp))
+  :bind ("C-c h" . lsp-describe-thing-at-point)
+  :init (yas-global-mode)
+  :custom (lsp-rust-server . 'rust-analyser))
 
-(use-package lsp-ui
+(leaf lsp-ui
   :ensure t
   :commands lsp-ui-mode)
+
+;; Golang
+(leaf go-mode
+  :ensure t
+  :mode ("\\.go\\'" . go-mode)
+  :config
+  (setq gofmt-command "goimports")
+  :hook (go-mode-hook . (lambda ()
+                          (add-hook 'before-save-hook #'lsp-format-buffer t t)
+                          (add-hook 'before-save-hook #'lsp-organize-imports t t)
+                          (yas-minor-mode 1)
+                          (lsp))))
+
+;; Python
+(leaf python
+  :mode ("\\.py$" . python-mode)
+  :interpreter ("python" . python-mode))
+
+(leaf eglot
+  :ensure t
+  :hook (python-mode-hook . eglot-ensure)
+  :config
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (add-hook 'before-save-hook 'eglot-format-buffer nil t))))
+
+;; Rust
+(leaf rust-mode
+  :ensure t
+  :custom (rust-format-on-save . t)
+  :config
+  (add-to-list 'exec-path (expand-file-name "~/.cargo/bin")))
+
+(leaf cargo
+  :ensure t
+  :hook (rust-mode-hook . cargo-minor-mode))
 
 ;; daracula themes
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'dracula t)
+
+;; --- Write a lot of setting here. end ---
+(provide 'init)
 
 ;; Local Variables:
 ;; indent-tabs-mode: nil
@@ -343,7 +367,7 @@ Image types are symbols like `xbm' or `jpeg'."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(flymake-php flycheck-phpstan dracula-theme lsp-mode lsp-ui go-autocomplete php-mode use-package indium modus-themes blackout el-get hydra leaf-keywords leaf)))
+   '(cargo rust-mode eglot flymake-php flycheck-phpstan dracula-theme lsp-mode lsp-ui go-autocomplete php-mode use-package indium modus-themes blackout el-get hydra leaf-keywords leaf)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
