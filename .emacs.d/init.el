@@ -1,18 +1,20 @@
-;; init.el
-;; Author: Shotaro Tanaka <5511068t@gmail.com>
+;;; package --- Summary
 
-;; this enables this running method
-;;   emacs -q -l ~/.debug.emacs.d/init.el
+;;; Commentary:
+
+;; my emacs.el
+
+;;; code:
 (eval-and-compile
   (when (or load-file-name byte-compile-current-file)
     (setq user-emacs-directory
-	  (expand-file-name
-	   (file-name-directory (or load-file-name byte-compile-current-file))))))
+          (expand-file-name
+           (file-name-directory (or load-file-name byte-compile-current-file))))))
 
 (eval-and-compile
   (customize-set-variable
    'package-archives '(("gnu"   . "https://elpa.gnu.org/packages/")
-		       ("melpa" . "https://melpa.org/packages/")
+                       ("melpa" . "https://melpa.org/packages/")
                        ("org"   . "https://orgmode.org/elpa/")))
   (package-initialize)
   (unless (package-installed-p 'leaf)
@@ -31,76 +33,7 @@
     ;; initialize leaf-keywords.el
     (leaf-keywords-init)))
 
-;; --- Write a lot of setting here. start ---
-;; overriding image.el function image-type-available-p
-(defun image-type-available-p (type)
-  "Return t if image type TYPE is available.
-Image types are symbols like `xbm' or `jpeg'."
-  (if (eq 'svg type)
-      nil
-    (and (fboundp 'init-image-library)
-         (init-image-library type))))
-;; cus-start.c
-(leaf cus-start
-  :doc "define customization properties of builtins"
-  :tag "builtin" "internal"
-  :preface
-  (defun c/redraw-frame nil
-    (interactive)
-    (redraw-frame))
-
-  :bind (("M-ESC ESC" . c/redraw-frame))
-  :custom '((user-full-name . "Shotaro Tanaka")
-            (user-mail-address . "5511068t@gmail.com")
-            (user-login-name . "shooonng")
-            (create-lockfiles . nil)
-            (debug-on-error . t)
-            (init-file-debug . t)
-            (frame-resize-pixelwise . t)
-            (enable-recursive-minibuffers . t)
-            (history-length . 1000)
-            (history-delete-duplicates . t)
-            (scroll-preserve-screen-position . t)
-            (scroll-conservatively . 100)
-            (mouse-wheel-scroll-amount . '(1 ((control) . 5)))
-            (ring-bell-function . 'ignore)
-            (text-quoting-style . 'straight)
-            (truncate-lines . t)
-            ;; (use-dialog-box . nil)
-            ;; (use-file-dialog . nil)
-            ;; (menu-bar-mode . t)
-            ;; (tool-bar-mode . nil)
-            (scroll-bar-mode . nil)
-            (indent-tabs-mode . nil))
-  :config
-  (defalias 'yes-or-no-p 'y-or-n-p)
-  (keyboard-translate ?\C-h ?\C-?))
-
-;; autorevert
-(leaf autorevert
-  :doc "revert buffers when files on disk change"
-  :tag "builtin"
-  :custom ((auto-revert-interval . 1))
-  :global-minor-mode global-auto-revert-mode)
-
-;; cc-mode
-(leaf cc-mode
-  :doc "major mode for editing C and similar languages"
-  :tag "builtin"
-  :defvar (c-basic-offset)
-  :bind (c-mode-base-map
-         ("C-c c" . compile))
-  :mode-hook
-  (c-mode-hook . ((c-set-style "bsd")
-                  (setq c-basic-offset 4)))
-  (c++-mode-hook . ((c-set-style "bsd")
-                    (setq c-basic-offset 4))))
-
-;; delsel
-(leaf delsel
-  :doc "delete selection if you insert"
-  :tag "builtin"
-  :global-minor-mode delete-selection-mode)
+;; ここにいっぱい設定を書く
 
 ;; paren
 (leaf paren
@@ -109,36 +42,7 @@ Image types are symbols like `xbm' or `jpeg'."
   :custom ((show-paren-delay . 0.1))
   :global-minor-mode show-paren-mode)
 
-;; simple
-(leaf simple
-  :doc "basic editing commands for Emacs"
-  :tag "builtin" "internal"
-  :custom ((kill-ring-max . 100)
-           (kill-read-only-ok . t)
-           (kill-whole-line . t)
-           (eval-expression-print-length . nil)
-           (eval-expression-print-level . nil)))
-
-;; files
-(leaf files
-  :doc "file input and output commands for Emacs"
-  :tag "builtin"
-  :custom `((auto-save-timeout . 15)
-            (auto-save-interval . 60)
-            (auto-save-file-name-transforms . '((".*" ,(locate-user-emacs-file "backup/") t)))
-            (backup-directory-alist . '((".*" . ,(locate-user-emacs-file "backup"))
-                                        (,tramp-file-name-regexp . nil)))
-            (version-control . t)
-            (delete-old-versions . t)))
-
-;; startup
-(leaf startup
-  :doc "process Emacs shell arguments"
-  :tag "builtin" "internal"
-  :custom `((auto-save-list-file-prefix . ,(locate-user-emacs-file "backup/.sage-")))
-          
-
-;; evy
+;; ivy
 (leaf ivy
   :doc "Incremental Vertical completYon"
   :req "emacs-24.5"
@@ -152,6 +56,8 @@ Image types are symbols like `xbm' or `jpeg'."
            (ivy-use-selectable-prompt . t))
   :global-minor-mode t
   :config
+
+  ;; swiper
   (leaf swiper
     :doc "Isearch with an overview. Oh, man!"
     :req "emacs-24.5" "ivy-0.13.0"
@@ -161,6 +67,7 @@ Image types are symbols like `xbm' or `jpeg'."
     :ensure t
     :bind (("C-s" . swiper)))
 
+  ;; counsel
   (leaf counsel
     :doc "Various completion functions using Ivy"
     :req "emacs-24.5" "swiper-0.13.0"
@@ -175,6 +82,7 @@ Image types are symbols like `xbm' or `jpeg'."
               (counsel-find-file-ignore-regexp . ,(rx-to-string '(or "./" "../") 'no-group)))
     :global-minor-mode t))
 
+;; prescient
 (leaf prescient
   :doc "Better sorting and filtering"
   :req "emacs-25.1"
@@ -184,7 +92,8 @@ Image types are symbols like `xbm' or `jpeg'."
   :ensure t
   :custom ((prescient-aggressive-file-save . t))
   :global-minor-mode prescient-persist-mode)
-  
+
+;; ivy-presient
 (leaf ivy-prescient
   :doc "prescient.el + Ivy"
   :req "emacs-25.1" "prescient-4.0" "ivy-0.11.0"
@@ -233,6 +142,7 @@ Image types are symbols like `xbm' or `jpeg'."
            (company-transformers . '(company-sort-by-occurrence)))
   :global-minor-mode global-company-mode)
 
+;; company-c-headers
 (leaf company-c-headers
   :doc "Company mode backend for C/C++ header files"
   :req "emacs-24.1" "company-0.8"
@@ -245,120 +155,77 @@ Image types are symbols like `xbm' or `jpeg'."
   :config
   (add-to-list 'company-backends 'company-c-headers))
 
-;; web-mode
-(leaf web-mode
-  :config
-  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode)))
-
-;; js2-mode
-(leaf js2-mode
+;; magit
+(leaf magit
   :ensure t
-  :mode ("\\.js\\'" . js2-mode)
-  :hook (js2-mode-hook . ac-js2-mode))
+  :bind (("C-x g" . magit-status)))
 
-;; ac-js2
-(leaf ac-js2
+;; which-key
+(leaf which-key
+  :ensure t
+  :config
+  (which-key-mode 1))
+
+;; rust-mode
+(add-to-list 'exec-path (expand-file-name "~/.cargo/bin"))
+(leaf rust-mode
   :ensure t)
 
-;; php-mode
-(leaf php-mode
+;; web-mode
+(leaf web-mode
   :ensure t
-  :mode ("\\.php\\'" . php-mode)
-  :hook (php-mode-hook . (lambda ()
-                           (setq-local show-trailing-whitespace t)
-                           (setq-local ac-disable-faces '(font-lock-comment-face font-lock-string-face))
-                           (setq-local page-delimiter "\\_<\\(class\\|function\\|namespace\\)\\_>.+$")
-                           (when (boundp 'flycheck-disabled-checkers)
-                             (add-to-list 'flycheck-disabled-checkers 'php-phpmd)
-                             (add-to-list 'flycheck-disabled-checkers 'php-phpcs))))
+  :mode ("\\.html?\\'" "\\.css\\'" "\\.js\\'"))
 
-;; tabs
-(setq-default indent-tabs-mode t)
+;; emment-mode
+(leaf emmet-mode
+  :ensure t
+  :hook (web-mode-hook . emmet-mode)
+        (css-mode-hook . emmet-mode))
 
-;; yank clipbord
-(setq x-select-enable-clipboard t)
-;; darwin copy
-(setq sysname system-type)
-(if (eq sysname 'darwin)
-    (progn
-      (defun copy-from-osx()
-        (shell-command-to-string "reattach-to-user-namespace pbpaste"))
-      (defun paste-to-osx(text &optional push)
-        (let ((process-connection-type nil))
-          (let ((proc (start-process "pbcopy" "*Messages*" "reattach-to-user-namespace" "pbcopy")))
-            (process-send-string proc text)
-            (process-send-eof proc))))
-      (setq interprogram-cut-function 'paste-to-osx)
-      (setq interprogram-paste-function 'copy-from-osx)
-      )
-  (message "This platform is not mac"))
+;; typescript-mode
+(leaf typescript-mode
+  :ensure t)
 
-;; Electric Pair Mode
-(leaf electric-pair-mode
-  :config
-  (electric-pair-mode 1))
+;; haskell-mode
+(leaf haskell-mode
+  :ensure t)
 
-;; Common settings for LSP
+;; cc-mode
+(leaf haskell-mode
+  :ensure t)
+
+;; python-mode
+(leaf python-mode
+  :ensure t
+  :hook (python-mode-hook . lsp))
+
+;; markdown-mode
+(leaf markdown-mode
+  :ensure t
+  :mode ("\\.md\\'" "\\.markdown\\'"))
+
+;; lsp-mode
 (leaf lsp-mode
   :ensure t
-  :commands (lsp lsp-deferred)
-  :hook ((go-mode-hook . lsp-deferred)
-         (rust-mode-hook . lsp))
-  :bind ("C-c h" . lsp-describe-thing-at-point)
-  :init (yas-global-mode)
-  :custom (lsp-rust-server . 'rust-analyser))
-
-(leaf lsp-ui
-  :ensure t
-  :commands lsp-ui-mode)
-
-;; Golang
-(leaf go-mode
-  :ensure t
-  :mode ("\\.go\\'" . go-mode)
+  :hook (rust-mode-hook . lsp)
   :config
-  (setq gofmt-command "goimports")
-  :hook (go-mode-hook . (lambda ()
-                          (add-hook 'before-save-hook #'lsp-format-buffer t t)
-                          (add-hook 'before-save-hook #'lsp-organize-imports t t)
-                          (yas-minor-mode 1)
-                          (lsp))))
+  (setq lsp-rust-server 'rust-analyzer))
 
-;; Python
-(leaf python
-  :mode ("\\.py$" . python-mode)
-  :interpreter ("python" . python-mode))
-
-(leaf eglot
-  :ensure t
-  :hook (python-mode-hook . eglot-ensure)
-  :config
-  (add-hook 'python-mode-hook
-            (lambda ()
-              (add-hook 'before-save-hook 'eglot-format-buffer nil t))))
-
-;; Rust
-(leaf rust-mode
-  :ensure t
-  :custom (rust-format-on-save . t)
-  :config
-  (add-to-list 'exec-path (expand-file-name "~/.cargo/bin")))
-
-(leaf cargo
-  :ensure t
-  :hook (rust-mode-hook . cargo-minor-mode))
-
-;; daracula themes
+;; dracula
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'dracula t)
 
-;; --- Write a lot of setting here. end ---
-(provide 'init)
+;; neotree
+(leaf neotree
+  :ensure t
+  :require t
+  :config
+  (leaf all-the-icons
+    :ensure t)
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+  :bind ("C-x M-n" . neotree-toggle))
 
-;; Local Variables:
-;; indent-tabs-mode: nil
-;; End:
+(provide 'init)
 
 ;;; init.el ends here
 (custom-set-variables
@@ -367,7 +234,7 @@ Image types are symbols like `xbm' or `jpeg'."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(cargo rust-mode eglot flymake-php flycheck-phpstan dracula-theme lsp-mode lsp-ui go-autocomplete php-mode use-package indium modus-themes blackout el-get hydra leaf-keywords leaf)))
+   '(dracula-theme company-c-headers company flycheck ivy-prescient prescient counsel swiper ivy blackout el-get hydra leaf-keywords)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
