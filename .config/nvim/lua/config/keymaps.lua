@@ -8,3 +8,17 @@ vim.api.nvim_set_keymap("n", "<C-j>", ":bnext<CR>", { noremap = true, silent = t
 vim.api.nvim_set_keymap("n", "<C-n>", ":Neotree<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-n><C-d>", ":Neotree<Space>close<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-g>", ":Neotree<Space>git_status<CR>", { noremap = true, silent = true })
+
+-- Copilotのデフォルトのキーマップを無効化
+vim.g.copilot_no_tab_map = true
+
+-- エンターキーで改行のみを行う
+vim.api.nvim_set_keymap("i", "<CR>", "<CR>", { noremap = true, silent = true })
+
+-- タブキーでCopilotの補完を受け入れる条件を再設定
+vim.api.nvim_set_keymap(
+  "i",
+  "<Tab>",
+  'pumvisible() ? "\\<C-n>" : (copilot#Accept("<Tab>") ? "" : "\\<Tab>")',
+  { expr = true, noremap = true, silent = true }
+)
