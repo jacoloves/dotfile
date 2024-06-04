@@ -14,6 +14,10 @@ end
 
 set -x PATH /opt/homebrew/bin $PATH
 set -x PATH $HOME/go/bin $PATH
+set -x PATH $HOME/.sdkman/candidates/sbt/current/bin $PATH
+set -gx PATH $PATH ~/.cargo/bin
+
+set -x JAVA_HOME /use/libexec/java_home -v 22
 
 # some more ls aliases
 alias ls='lsd'
@@ -24,3 +28,4 @@ alias goroot='cd $HOME/go/src/github.com/jacoloves'
 alias py='python3'
 alias g='git'
 alias vim='nvim'
+alias ide='$HOME/tmp/dotfile/.scripts/ide_setting.sh'
