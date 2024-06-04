@@ -1,0 +1,31 @@
+tap "hashicorp/tap"
+tap "homebrew/bundle"
+
+brew "awscli"
+brew "bat"
+brew "curl"
+brew "fish"
+brew "fzf"
+brew "gh"
+brew "ghq"
+brew "git"
+brew "go"
+brew "grep"
+brew "kubernetes-cli"
+brew "neovim"
+brew "mosh"
+brew "terraform"
+brew "tig"
+brew "tmux"
+brew "wget"
+brew "yarn"
+
+cask "alfred"
+cask "docker"
+cask "iterm2"
+cask "obsidian"
+cask "qlmarkdown"
+cask "rectangle"
+
+
+
