@@ -35,11 +35,6 @@ vim.cmd("syntax enable")
 vim.o.list = true
 vim.o.listchars = "tab:>-,extends:<,trail:-"
 
--- カッコを補完するためのキーマッピング
-vim.api.nvim_set_keymap("i", "{", "{}<Left>", { noremap = true })
-vim.api.nvim_set_keymap("i", "(", "()<Left>", { noremap = true })
-vim.api.nvim_set_keymap("i", "[", "[]<Left>", { noremap = true })
-
 -- 引用符を補完するためのキーマッピング
 vim.api.nvim_set_keymap("i", '"', '""<Left>', { noremap = true })
 vim.api.nvim_set_keymap("i", "'", "''<Left>", { noremap = true })
