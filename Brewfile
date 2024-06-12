@@ -26,6 +26,6 @@ cask "iterm2"
 cask "obsidian"
 cask "qlmarkdown"
 cask "rectangle"
-
+cask "arc"
 
 
