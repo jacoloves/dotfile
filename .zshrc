@@ -3,8 +3,6 @@ export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 export XDG_BASE_HOME='~/.config'
 export VIMPLUGIN='~/.vim/pack/plugins/start'
-export XDG_CACHE_HOME='~/.cache'
-export XDG_DATA_HOME='~/.local/share'
 . "$HOME/.cargo/env"
 
 # Lines configured by zsh-newuser-install
@@ -37,6 +35,7 @@ autoload -Uz colors
 colors
 
 # some more ls aliases
+alias ls='lsd'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
@@ -45,6 +44,13 @@ alias ide='$HOME/tmp/dotfile/.scripts/ide_setting.sh'
 alias clion='sh $HOME/Documents/clion-2022.3/bin/clion.sh'
 alias abcp='$HOME/tmp/release/2023/atcoder_template_copy/abcp.sh'
 alias goroot='cd $HOME/go/src/github.com/jacoloves'
+alias chro="open -a 'Google Chrome'"
+alias E="emacsclient -nw"
+alias kill-emacs="emacsclient -e '(kill-emacs)'"
+alias labroot="$HOME/tmp/new_lab/2024/"
+alias cpt='cp -p ./tmp.cpp ./$1.cpp'
+alias py='python3'
+alias g='git'
 
 # Fill in the candidates
 zstyle ':completion:*' menu select
@@ -52,10 +58,17 @@ zstyle ':completion:*' menu select
 # correct keyword
 setopt correct
 
+# git setting
+autoload -Uz vcs_info
+precmd_vcs_info() { vcs_info }
+precmd_functions+=( precmd_vcs_info )
+setopt prompt_subst
+
 # Setting Prompt
 PROMPT='%F{cyan}%/%f %F{yellow}%D%f %F{magenta}%*%f
 %F{green} (つ・ω・)つ%f'
-RPROMPT='[%F{green}%n%f]'
+RPROMPT='[%F{green}${vcs_info_msg_0_}%f]'
+zstyle ':vcs_info:git:*' formats '%b'
 
 # auto cd
 setopt auto_cd
@@ -104,3 +117,24 @@ setopt nonomatch
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+[ -f "/Users/stanaka/.ghcup/env" ] && source "/Users/stanaka/.ghcup/env" # ghcup-env
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/opt/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/opt/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/opt/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
