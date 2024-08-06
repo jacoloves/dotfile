@@ -1,4 +1,3 @@
-
 " シンタックスハイライトON
 syntax enable
 syntax on
@@ -39,6 +38,9 @@ inoremap [ []<LEFT>
 " "や'を補完する
 inoremap " ""<LEFT>
 inoremap ' ''<LEFT>
+
+" 補完の際にenterを押下すると候補が選択されるようにする
+inoremap <expr><CR> pumvisible() ? "<C-y>" : "<CR>"
 
 hi Comment ctermfg=gray
 
@@ -123,6 +125,10 @@ Plugin 'rhysd/vim-clang-format'
 Plugin 'dracula/vim',{'name':'dracula'}
 " vim-devicons
 Plugin 'ryanoasis/vim-devicons'
+" github copilot
+Plugin 'github/copilot.vim'
+" haskell-vim
+Plugin 'neovimhaskell/haskell-vim'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -140,12 +146,18 @@ filetype plugin indent on    " required
 " Put your non-Plugin stuff after this line
 nnoremap <C-n> :NERDTreeToggle<CR>
 
-set termguicolors
-let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
-let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
-set background=dark
+"set termguicolors
+"let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
+"let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
+"set background=dark
 " colorschema
-colorscheme dracula
+colorscheme jellybeans
+
+"hi Normal guibg=NONE
+"hi LineNr guibg=NONE
+"hi VerSplit guibg=NONE
+"hi Special guibg=NONE
+"hi Identifier guibg=NONE
 " cd C:\Users\s.tanaka\tana\lab 
 " timestampmemoの保存先
 let g:timestamp_save_path = "C:\\Users\\s.tanaka\\work\\memo"
@@ -157,6 +169,7 @@ noremap <c-s> :w<cr>
 noremap <c-x> :q<cr>
 " Ctrl+aで次tab移動
 nmap <c-a> :tabn<cr> 
+nnoremap <Return><Return> <c-w><c-w>
 
 " buffer connection
 nnoremap <c-j> :bprev<cr>
@@ -181,20 +194,20 @@ let g:user_full_name = "Shotaro Tanaka"
 let g:user_mail_address = "5511068t@gmail.com"
 
 " typescript
-if executable('typescript-language-server')
-    augroup LspTypeScript
-        au!
-        autocmd User lsp_setup call lsp#register_server({
-            \ 'name': 'typescript-language-server',
-            \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-            \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
-            \ 'whitelist': ['typescript', 'typescript.tsx', 'javascript', 'javascript.jsx'],
-            \ })
-        autocmd FileType typescript setlocal omnifunc=lsp#complete
-    augroup END :echomsg "vim-lsp with `typescript-language-server' enabled"
-else
-    :echomsg "vim-lsp for typescript unavailable"
-endif
+"if executable('typescript-language-server')
+"    augroup LspTypeScript
+"        au!
+"        autocmd User lsp_setup call lsp#register_server({
+"            \ 'name': 'typescript-language-server',
+"            \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+"            \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
+"            \ 'whitelist': ['typescript', 'typescript.tsx', 'javascript', 'javascript.jsx'],
+"            \ })
+"        autocmd FileType typescript setlocal omnifunc=lsp#complete
+"    augroup END :echomsg "vim-lsp with `typescript-language-server' enabled"
+"else
+"    :echomsg "vim-lsp for typescript unavailable"
+"endif
 
 " vim-javascript setting
 let g:javascript_plugin_flow = 1
@@ -211,11 +224,17 @@ endif
 " rustfmt autosave
 let g:rustfmt_autosave = 1
 
-au Filetype typescript,javascript setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
-au Filetype typescriptreact setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
-au Filetype php setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+filetype indent on
 
-au Filetype *.go  setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+au FileType go  set tabstop=2 softtabstop=2 shiftwidth=2
+au FileType js  set tabstop=2 softtabstop=2 shiftwidth=2
+au FileType ts  set tabstop=2 softtabstop=2 shiftwidth=2
+au FileType tsx set tabstop=2 softtabstop=2 shiftwidth=2
+au FileType php set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+au FileType hs set tabstop=2 softtabstop=2 shiftwidth=2
+au FileType yaml set tabstop=2 softtabstop=2 shiftwidth=2
+au FileType yml set tabstop=2 softtabstop=2 shiftwidth=2
+au FileType md set tabstop=2 softtabstop=2 shiftwidth=2
 
 " clang-format auto
 autocmd FileType c,cc,cpp,h ClangFormatAutoEnable
@@ -243,3 +262,31 @@ augroup vimrc_lsp_install
     autocmd!
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
+
+" rust-analyzer setting
+if executable('rust-analyzer')
+  au User lsp_setup call lsp#register_server({
+        \   'name': 'Rust Language Server',
+        \   'cmd': {server_info->['rust-analyzer']},
+        \   'whitelist': ['rust'],
+        \   'initialization_options': {
+        \     'cargo': {
+        \       'buildScripts': {
+        \         'enable': v:true,
+        \       },
+        \     },
+        \     'procMacro': {
+        \       'enable': v:true,
+        \     },
+        \   },
+        \ })
+endif
+
+" haskell-vim segtings
+let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
