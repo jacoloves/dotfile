@@ -129,6 +129,8 @@ Plugin 'ryanoasis/vim-devicons'
 Plugin 'github/copilot.vim'
 " haskell-vim
 Plugin 'neovimhaskell/haskell-vim'
+" grubvox
+Plugin 'morhetz/gruvbox'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -149,9 +151,10 @@ nnoremap <C-n> :NERDTreeToggle<CR>
 "set termguicolors
 "let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
 "let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
-"set background=dark
+set background=dark
+"set background=light
 " colorschema
-colorscheme jellybeans
+colorscheme gruvbox
 
 "hi Normal guibg=NONE
 "hi LineNr guibg=NONE
