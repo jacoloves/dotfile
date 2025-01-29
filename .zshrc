@@ -51,6 +51,16 @@ alias labroot="$HOME/tmp/new_lab/2024/"
 alias cpt='cp -p ./tmp.cpp ./$1.cpp'
 alias py='python3'
 alias g='git'
+alias ssodev='aws sso login --profile aws-jse-dev'
+alias ssoprod='aws sso login --profile aws-jse'
+alias prossm='aws --profile=aws-jse ssm --region=ap-northeast-1 start-session --target $(aws ec2 describe-instances --filter "Name=instance-state-name,Values=running" "Name=tag:Role,Values=gui-bastion" --query "Reservations[*]    .Instances[*].{Instance:InstanceId}" --output text --profile=aws-jse --region=ap-northeast-1 )'
+alias devssm='aws --profile=aws-jse-dev --region=ap-northeast-1 ssm start-session --target $(aws ec2 describe-instances --filter "Name=instance-state-name,Values=running" "Name=tag:Role,Values=gui-bastion"     --query "Reservations[*]    .Instances[*].{Instance:InstanceId}" --output text --profile=aws-jse-dev --region=ap-northeast-1 )'
+alias memo='bash $HOME/work/dairy.sh'
+alias k='kubectl'
+alias v='nvim'
+alias sl='$HOME/ghq/github.com/jacoloves/sl-rust/target/release/sl'
+alias gip='/Users/shotaro.tanaka/tmp/tools/gip.sh'
+alias cdg='cd $(ghq list -full-path | fzf)'
 
 # Fill in the candidates
 zstyle ':completion:*' menu select
@@ -82,10 +92,14 @@ source ~/.zplug/init.zsh
 
 ## Write here the tools you want to use.
 ## zplug "username/repository name", tags
-
+zplug "zsh-users/zsh-autosuggestions"
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "zsh-users/zsh-completions"
 ## end
 
 zplug "zplug/zplug", hook-build:'zplug --self-mage'
+
+
 
 if ! zplug check --verbose; then
     printf "Install! [y/N]: "
@@ -101,12 +115,12 @@ zplug load --verbose
 # zle process
 function _git_clean_fdx() {
     echo git clean -fdx
-    echo "\n" 
+    echo "\n"
     git clean -fdx
-    zle reset-prompt 
+    zle reset-prompt
 }
-zle -N git_clean_fdx _git_clean_fdx 
-bindkey "^g^f" git_clean_fdx 
+zle -N git_clean_fdx _git_clean_fdx
+bindkey "^g^f" git_clean_fdx
 
 export PULSE_SERVER=tcp:127.0.0.1
 
@@ -137,4 +151,4 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
+eval "$(starship init zsh)"
