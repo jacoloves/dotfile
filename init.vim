@@ -125,7 +125,7 @@ nnoremap <Return><Return> <c-w><c-w>
 
 " buffer connection
 nnoremap <c-j> :bprev<cr>
-nnoremap <c-k> :b<cr>
+nnoremap <c-k> :bnext<cr>
 
 hi Comment ctermfg=gray
 set termguicolors

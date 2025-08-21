@@ -236,8 +236,7 @@ au FileType tsx set tabstop=2 softtabstop=2 shiftwidth=2
 au FileType php set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 au FileType hs set tabstop=2 softtabstop=2 shiftwidth=2
 au FileType yaml set tabstop=2 softtabstop=2 shiftwidth=2
-au FileType yml set tabstop=2 softtabstop=2 shiftwidth=2
-au FileType md set tabstop=2 softtabstop=2 shiftwidth=2
+au FileType markdown set tabstop=2 softtabstop=2 shiftwidth=2
 
 " clang-format auto
 autocmd FileType c,cc,cpp,h ClangFormatAutoEnable
