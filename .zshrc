@@ -61,6 +61,7 @@ alias v='nvim'
 alias sl='$HOME/ghq/github.com/jacoloves/sl-rust/target/release/sl'
 alias gip='/Users/shotaro.tanaka/tmp/tools/gip.sh'
 alias cdg='cd $(ghq list -full-path | fzf)'
+alias lg=lazygit
 
 # Fill in the candidates
 zstyle ':completion:*' menu select
