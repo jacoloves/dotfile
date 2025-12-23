@@ -47,7 +47,7 @@ alias goroot='cd $HOME/go/src/github.com/jacoloves'
 alias chro="open -a 'Google Chrome'"
 alias E="emacsclient -nw"
 alias kill-emacs="emacsclient -e '(kill-emacs)'"
-alias labroot="$HOME/tmp/new_lab/2024/"
+alias labroot="$HOME/tmp/new_lab/2025/"
 alias cpt='cp -p ./tmp.cpp ./$1.cpp'
 alias py='python3'
 alias g='git'
@@ -61,7 +61,10 @@ alias v='nvim'
 alias sl='$HOME/ghq/github.com/jacoloves/sl-rust/target/release/sl'
 alias gip='/Users/shotaro.tanaka/tmp/tools/gip.sh'
 alias cdg='cd $(ghq list -full-path | fzf)'
-alias lg=lazygit
+alias lg='lazygit'
+alias tf='terraform'
+alias atrun='runghc $HOME/ghq/github.com/jacoloves/haskell-sandbox/playground/algogogo/december.hs'
+alias atcp='cat $HOME/ghq/github.com/jacoloves/haskell-sandbox/playground/algogogo/december.hs | pbcopy'
 
 # Fill in the candidates
 zstyle ':completion:*' menu select
