@@ -2,7 +2,7 @@
 	user = jacoloves
 
 [core]
-	editor = vim
+	editor = nvim
 	# excludesfile = ~/.gitignore
 	preloadindex = true
 	excludesfile = /Users/stanaka/.gitignore_global
@@ -31,6 +31,10 @@
     review = diff origin/HEAD...
     rvf = diff origin/HEAD... --name-only
     rvc = log --oneline ...origin/HEAD
+    # Difftastic aliases, so `git dlog` is `git log` with difftastic and so on.
+    dlog = -c diff.external=difft log --ext-diff
+    dshow = -c diff.external=difft show --ext-diff
+    ddiff = -c diff.external=difft diff
 
 [help]
 	autocorrect = 1
