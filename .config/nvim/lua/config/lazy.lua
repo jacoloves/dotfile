@@ -8,32 +8,15 @@ vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
 require("lazy").setup({
   spec = {
-    -- add LazyVim and import its plugins
-    {
-      "LazyVim/LazyVim",
-      import = "lazyvim.plugins",
-      opts = {
-        colorschema = "nightfox",
-        news = {
-          lazyvim = true,
-          neovim = true,
-        },
-      },
-    },
-    -- import any extras modules here
-    { import = "lazyvim.plugins.extras.lang.typescript" },
-    -- { import = "lazyvim.plugins.extras.lang.json" },
-    -- { import = "lazyvim.plugins.extras.ui.mini-animate" },
-    { import = "lazyvim.plugins.extras.lang.python" },
-    { import = "lazyvim.plugins.extras.lang.rust" },
-    { import = "lazyvim.plugins.extras.lang.haskell" },
-    { import = "lazyvim.plugins.extras.lang.clangd" },
-    { import = "lazyvim.plugins.extras.lang.go" },
-    { import = "lazyvim.plugins.extras.lang.scala" },
-    { import = "lazyvim.plugins.extras.coding.copilot" },
+    -- LazyVim 本体とそのデフォルトプラグインを読み込む
+    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+    -- 言語非依存の util/ui extras はここに残す
     { import = "lazyvim.plugins.extras.util.mini-hipatterns" },
-    { import = "lazyvim.plugins.extras.lang.terraform" },
-    -- import/override with your plugins
+    { import = "lazyvim.plugins.extras.ui.mini-starter" },
+    -- lazy.nvim の import はサブディレクトリを自動再帰しないため、
+    -- この 1 行が無いと lang/ 配下は一切読まれない
+    { import = "plugins.lang" },
+    -- 既存：lua/plugins/ 直下の各 *.lua を読み込む
     { import = "plugins" },
   },
   defaults = {
