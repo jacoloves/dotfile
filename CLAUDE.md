@@ -41,11 +41,11 @@ dotfile/
 │   └── fish/                   # Fish シェル設定
 ├── .emacs.d/init.el            # Emacs 設定（Leaf フレームワーク）
 ├── .scripts/                   # ユーティリティシェルスクリプト
-│   ├── ide_setting.sh          # Tmux IDE レイアウト構成
+│   └── ide_setting.sh          # Tmux IDE レイアウト構成
+├── my_tools/                   # 個人用ユーティリティスクリプト
 │   ├── setup.sh                # vim-plug インストール
 │   ├── desktop-cleaner.sh      # デスクトップ整理
-│   └── download-cleanup.sh     # Downloads フォルダ整理・アーカイブ
-├── my_tools/                   # 個人用ユーティリティスクリプト
+│   └── download-cleaup.sh      # Downloads フォルダ整理・アーカイブ（ファイル名ママ）
 ├── etc/                        # 追加設定ファイル
 ├── .gitconfig                  # Git 設定（エイリアス・色設定・git-secrets）
 ├── .tmux.conf                  # Tmux 設定（C-q プレフィックス・vim キーバインド）
@@ -147,11 +147,18 @@ prossm    # AWS Systems Manager セッション（本番）
 ### Git エイリアス（.gitconfig）
 
 ```sh
-git s      # git status
-git l      # ログ（カスタムフォーマット）
-git d      # git difftool（Difftastic）
-git co     # git checkout
-git br     # git branch
+git st      # git status
+git co      # git checkout
+git ci      # git commit
+git br      # git switch（ブランチ切り替え）
+git lo      # ログ（1行・最新15件）
+git ll      # ログ（グラフ・詳細）
+git graph   # ログ（グラフ・全ブランチ）
+git unadd   # git restore --staged（ステージング取り消し）
+git review  # diff origin/HEAD...（レビュー用 diff）
+git ddiff   # Difftastic で diff
+git dshow   # Difftastic で show
+git dlog    # Difftastic で log
 ```
 
 ---
