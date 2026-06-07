@@ -1,0 +1,51 @@
+# PRの作成・更新時に GitHub Copilot（Codex）へ自動でレビューをリクエストするワークフロー
+name: Copilot Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  request-copilot-review:
+    runs-on: ubuntu-latest
+    # Copilot 自身が開いた PR や bot からの PR はスキップ
+    if: github.actor != 'github-actions[bot]' && github.actor != 'copilot[bot]'
+    steps:
+      - name: Copilot にコードレビューをリクエスト
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+
+            // すでに Copilot がレビュアーとして登録されているか確認
+            const { data: reviewers } = await github.rest.pulls.listRequestedReviewers({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+            });
+
+            const alreadyRequested = reviewers.users.some(
+              (u) => u.login === 'copilot-review'
+            );
+
+            if (!alreadyRequested) {
+              try {
+                await github.rest.pulls.requestReviewers({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: pr.number,
+                  reviewers: ['copilot-review'],
+                });
+                core.info(`PR #${pr.number} に Copilot のレビューをリクエストしました`);
+              } catch (err) {
+                // Copilot レビュー機能が有効でないリポジトリではエラーになる場合がある
+                core.warning(`Copilot レビューリクエスト失敗: ${err.message}`);
+                core.warning('リポジトリの Settings > Copilot でコードレビューが有効になっているか確認してください');
+              }
+            } else {
+              core.info('Copilot はすでにレビュアーとして登録済みです。スキップします。');
+            }
