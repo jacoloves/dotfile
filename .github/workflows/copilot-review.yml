@@ -26,7 +26,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: pr.number,
-              body: 'codex review',
+              body: '@codex review',
             });
 
             core.info(`PR #${pr.number} に "codex review" コメントを投稿しました`);
