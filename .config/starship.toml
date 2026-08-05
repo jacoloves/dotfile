@@ -16,9 +16,9 @@ color_yellow = '#d79921'
 
 [character]
 disabled = false
-success_symbol = "[[♥](green) ❯](maroon)"
-error_symbol = "[❯](red)"
-vimcmd_symbol = "[❮](green)"
+success_symbol = "[\\(-'_'\\)](bold color_green)"
+error_symbol = "[\\(-T_T\\)](bold color_red)"
+vimcmd_symbol = "[\\(-'_'\\)](bold color_green)"
 vimcmd_replace_one_symbol = '[](bold fg:color_purple)'
 vimcmd_replace_symbol = '[](bold fg:color_purple)'
 vimcmd_visual_symbol = '[](bold fg:color_yellow)'
